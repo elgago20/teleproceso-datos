@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicaciones del Teleproceso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--secondary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(52, 152, 219, 0.2), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--secondary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #bdc3c7;
+        }
+        
+        .content {
+            padding: 80px 0;
+        }
+        
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .application-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .application-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-header {
+            padding: 25px;
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+        }
+        
+        .card-header i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .card-body p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .card-body ul {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .card-body li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 10px;
+        }
+        
+        .example {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 3px solid var(--warning);
+        }
+        
+        .example h4 {
+            color: var(--warning);
+            margin-bottom: 10px;
+        }
+        
+        .sectors {
+            margin-top: 60px;
+        }
+        
+        .sectors h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--secondary);
+            font-size: 2.2rem;
+        }
+        
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .sector-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .sector-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sector-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+        }
+        
+        .sector-icon i {
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .sector-card h3 {
+            color: var(--warning);
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+        
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .applications-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-globe-americas"></i>
+                    <h1>Aplicaciones del Teleproceso</h1>
+                </div>
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Aplicaciones del Teleproceso</h2>
+            <p>Descubre cómo el procesamiento remoto transforma industrias y mejora nuestra vida diaria</p>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <div class="applications-grid">
+                <div class="application-card">
+                    <div class="card-header">
+                        <i class="fas fa-plane"></i>
+                        <h3>Sistemas de Reservaciones</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Las aerolíneas fueron pioneras en adoptar sistemas de teleproceso para gestionar reservas de vuelos, hoteles y alquiler de coches en tiempo real.</p>
+                        <ul>
+                            <li>Acceso inmediato a bases de datos centralizadas de disponibilidad</li>
+                            <li>Actualización en tiempo real de asientos y tarifas</li>
+                            <li>Transacciones seguras para pagos en línea</li>
+                            <li>Interfaz amigable para agentes de viajes y clientes</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Ejemplo: Sistema SABRE</h4>
+                            <p>Desarrollado por American Airlines en la década de 1960, fue uno de los primeros sistemas de reservas en tiempo real, conectando terminales en agencias de viajes con mainframes centrales.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="card-header">
+                        <i class="fas fa-university"></i>
+                        <h3>Sistemas Bancarios</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>La banca moderna depende completamente de sistemas de teleproceso para operaciones en tiempo real entre sucursales, cajeros automáticos y banca en línea.</p>
+                        <ul>
+                            <li>Procesamiento de transacciones en tiempo real</li>
+                            <li>Cajeros automáticos (ATMs) conectados a sistemas centrales</li>
+                            <li>Banca en línea y aplicaciones móviles</li>
+                            <li>Transferencias interbancarias inmediatas</li>
+                            <li>Procesamiento de tarjetas de crédito y débito</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Ejemplo: Red de Cajeros Automáticos</h4>
+                            <p>Los cajeros automáticos permiten a los clientes realizar operaciones bancarias las 24 horas, conectándose en tiempo real con los sistemas centrales para verificar saldos y procesar transacciones.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="card-header">
+                        <i class="fas fa-warehouse"></i>
+                        <h3>Gestión de Inventarios</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Empresas minoristas y manufactureras utilizan sistemas de teleproceso para gestionar inventarios en múltiples ubicaciones con actualizaciones en tiempo real.</p>
+                        <ul>
+                            <li>Seguimiento de stock en tiendas y almacenes</li>
+                            <li>Pedidos automáticos cuando el inventario es bajo</li>
+                            <li>Integración con puntos de venta (POS)</li>
+                            <li>Optimización de cadena de suministro</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Ejemplo: Sistemas de Retail</h4>
+                            <p>Grandes cadenas como Walmart utilizan sistemas de teleproceso para monitorear inventarios en miles de tiendas, optimizando reposición y reduciendo pérdidas por falta de stock.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="card-header">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Telemedicina</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>El sector salud utiliza teleproceso para consultas remotas, monitoreo de pacientes y acceso a historiales médicos desde cualquier ubicación.</p>
+                        <ul>
+                            <li>Historiales médicos electrónicos centralizados</li>
+                            <li>Consultas médicas por videoconferencia</li>
+                            <li>Dispositivos de monitoreo remoto de pacientes</li>
+                            <li>Compartir resultados de laboratorio y imágenes médicas</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Ejemplo: Monitoreo Remoto</h4>
+                            <p>Pacientes con condiciones crónicas pueden usar dispositivos conectados que envían datos vitales a sistemas centrales, permitiendo a los médicos monitorear su estado sin necesidad de visitas presenciales.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="card-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Educación a Distancia</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Plataformas de aprendizaje en línea permiten a estudiantes acceder a materiales, realizar exámenes y interactuar con instructores desde cualquier lugar.</p>
+                        <ul>
+                            <li>Plataformas de gestión de aprendizaje (LMS)</li>
+                            <li>Aulas virtuales y videoconferencias educativas</li>
+                            <li>Evaluaciones y exámenes en línea</li>
+                            <li>Recursos educativos digitales centralizados</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Ejemplo: Plataformas MOOC</h4>
+                            <p>Coursera, edX y otras plataformas de cursos masivos en línea utilizan sistemas de teleproceso para entregar contenido educativo a millones de estudiantes en todo el mundo.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="card-header">
+                        <i class="fas fa-industry"></i>
+                        <h3>Control Industrial</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Fábricas y plantas industriales utilizan sistemas de teleproceso para supervisar y controlar procesos desde centros de control remotos.</p>
+                        <ul>
+                            <li>Supervisión de procesos de fabricación</li>
+                            <li>Control remoto de maquinaria</li>
+                            <li>Monitoreo de condiciones ambientales</li>
+                            <li>Mantenimiento predictivo basado en datos</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Ejemplo: SCADA</h4>
+                            <p>Los sistemas de Control de Supervisión y Adquisición de Datos (SCADA) permiten monitorear y controlar procesos industriales desde ubicaciones centralizadas, incluso para plantas distribuidas geográficamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sectors">
+                <h2>Sectores que Dependen del Teleproceso</h2>
+                <div class="sectors-grid">
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3>Comercio Electrónico</h3>
+                        <p>Plataformas de venta online con procesamiento de pedidos y pagos en tiempo real</p>
+                    </div>
+                    
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <h3>Entretenimiento</h3>
+                        <p>Streaming de video y música bajo demanda con catálogos centralizados</p>
+                    </div>
+                    
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <i class="fas fa-traffic-light"></i>
+                        </div>
+                        <h3>Gobierno</h3>
+                        <p>Sistemas de impuestos, registros civiles y servicios públicos en línea</p>
+                    </div>
+                    
+                    <div class="sector-card">
+                        <div class="sector-icon">
+                            <i class="fas fa-satellite"></i>
+                        </div>
+                        <h3>Telecomunicaciones</h3>
+                        <p>Gestión de redes, facturación y servicios de valor añadido</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2023 Teleproceso y Transmisión de Datos. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

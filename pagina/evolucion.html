@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolución del Teleproceso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--secondary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(52, 152, 219, 0.2), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--secondary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #bdc3c7;
+        }
+        
+        .content {
+            padding: 80px 0;
+        }
+        
+        .timeline-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 40px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -37px;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--success);
+            border: 3px solid var(--secondary);
+        }
+        
+        .timeline-year {
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .timeline-year i {
+            color: var(--warning);
+        }
+        
+        .timeline-content h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .timeline-content p {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        
+        .timeline-content ul {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .timeline-content li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 10px;
+        }
+        
+        .advances-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .advance-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .advance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .advance-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+        }
+        
+        .advance-icon i {
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .advance-card h3 {
+            color: var(--warning);
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+        
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .timeline {
+                padding-left: 20px;
+            }
+            
+            .timeline-item::before {
+                left: -27px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-history"></i>
+                    <h1>Evolución del Teleproceso</h1>
+                </div>
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Evolución del Teleproceso</h2>
+            <p>Desde sistemas batch hasta la computación en la nube - Un viaje a través del tiempo</p>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <div class="timeline-container">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">
+                            <i class="fas fa-microchip"></i> 1960s
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Sistemas Batch</h3>
+                            <p>Los primeros sistemas de procesamiento de datos funcionaban por lotes (batch), sin interacción en tiempo real. Los datos se recolectaban y procesaban en grupos, con resultados disponibles horas o días después.</p>
+                            <ul>
+                                <li>Procesamiento por lotes sin interacción del usuario</li>
+                                <li>Tarjetas perforadas como medio de entrada</li>
+                                <li>Mainframes centralizados (IBM System/360)</li>
+                                <li>Tiempos de respuesta lentos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-year">
+                            <i class="fas fa-terminal"></i> 1970s
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Primeros Sistemas de Teleproceso</h3>
+                            <p>Aparecen los primeros sistemas que permiten a terminales remotas conectarse a mainframes centrales. Se desarrollan protocolos de comunicación básicos y surgen las primeras redes de área amplia (WAN).</p>
+                            <ul>
+                                <li>Terminales tontas conectadas a mainframes</li>
+                                <li>Protocolos como IBM 3270 y DEC VT100</li>
+                                <li>Velocidades de transmisión de 300-9600 bps</li>
+                                <li>Sistemas de reservación de aerolíneas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-year">
+                            <i class="fas fa-desktop"></i> 1980s
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Computación Cliente-Servidor</h3>
+                            <p>La aparición de las computadoras personales y las redes locales (LAN) impulsa el modelo cliente-servidor, distribuyendo el procesamiento entre el servidor y las estaciones de trabajo.</p>
+                            <ul>
+                                <li>Arquitectura cliente-servidor</li>
+                                <li>Protocolo TCP/IP se convierte en estándar</li>
+                                <li>Sistemas operativos de red (Novell NetWare)</li>
+                                <li>Primeras aplicaciones empresariales distribuidas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-year">
+                            <i class="fas fa-globe"></i> 1990s
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Internet y la Web</h3>
+                            <p>La popularización de Internet y la World Wide Web revoluciona el teleproceso, permitiendo acceso global a sistemas remotos a través de navegadores web.</p>
+                            <ul>
+                                <li>Navegadores web como interfaz universal</li>
+                                <li>Aplicaciones web de tres capas</li>
+                                <li>Comercio electrónico y banca online</li>
+                                <li>Velocidades de Mbps con ADSL y cable módem</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-year">
+                            <i class="fas fa-cloud"></i> 2000s
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Computación en la Nube</h3>
+                            <p>Surge la computación en la nube, ofreciendo servicios bajo demanda a través de Internet. El teleproceso evoluciona hacia modelos de software como servicio (SaaS).</p>
+                            <ul>
+                                <li>Infraestructura como servicio (IaaS)</li>
+                                <li>Plataforma como servicio (PaaS)</li>
+                                <li>Software como servicio (SaaS)</li>
+                                <li>Virtualización y contenedores</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-year">
+                            <i class="fas fa-mobile-alt"></i> 2010s - Actualidad
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Movilidad e IoT</h3>
+                            <p>La proliferación de dispositivos móviles y el Internet de las Cosas (IoT) expanden el teleproceso a nuevos niveles, con miles de millones de dispositivos conectados.</p>
+                            <ul>
+                                <li>Aplicaciones móviles y responsive design</li>
+                                <li>Internet de las Cosas (IoT)</li>
+                                <li>Computación en la edge (edge computing)</li>
+                                <li>5G y velocidades de gigabits</li>
+                                <li>Inteligencia Artificial y Machine Learning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 style="text-align: center; margin: 60px 0 30px; color: var(--secondary);">Avances Tecnológicos Clave</h2>
+                
+                <div class="advances-grid">
+                    <div class="advance-card">
+                        <div class="advance-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Velocidad de Transmisión</h3>
+                        <p>De 300 bps a varios Gbps, permitiendo transferencias instantáneas de grandes volúmenes de datos.</p>
+                    </div>
+                    
+                    <div class="advance-card">
+                        <div class="advance-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h3>Medios de Comunicación</h3>
+                        <p>De líneas telefónicas conmutadas a fibra óptica, wireless 5G y satélites de baja latencia.</p>
+                    </div>
+                    
+                    <div class="advance-card">
+                        <div class="advance-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Capacidad de Procesamiento</h3>
+                        <p>De mainframes centralizados a arquitecturas distribuidas y computación en la nube escalable.</p>
+                    </div>
+                    
+                    <div class="advance-card">
+                        <div class="advance-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h3>Interfaz de Usuario</h3>
+                        <p>De terminales de texto a interfaces gráficas, web responsivas y experiencias inmersivas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2023 Teleproceso y Transmisión de Datos. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teleproceso y Transmisión de Datos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--secondary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        nav a:hover, nav a.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(52, 152, 219, 0.2), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><path d="M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="white" stroke-width="2"/><circle cx="50" cy="50" r="30" fill="none" stroke="white" stroke-width="1"/></svg>');
+            top: -50%;
+            left: -50%;
+            animation: rotate 120s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--secondary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #bdc3c7;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            animation: fadeIn 2.5s ease-out;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+            padding-bottom: 15px;
+            position: relative;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: var(--secondary);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .card i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+        
+        .card p {
+            color: #bdc3c7;
+        }
+        
+        .concepts {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .concept-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .concept-item {
+            flex: 1 1 300px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .concept-item h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .transmission-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .type-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .type-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .type-header {
+            padding: 20px;
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+        }
+        
+        .type-body {
+            padding: 25px;
+        }
+        
+        .type-body ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .type-body li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .type-body li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .visualization {
+            text-align: center;
+            padding: 60px 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .visual-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .node {
+            width: 120px;
+            height: 120px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .connection {
+            width: 200px;
+            height: 5px;
+            background: var(--success);
+            position: relative;
+        }
+        
+        .connection::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid var(--success);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            right: 0;
+            top: -2.5px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section {
+            flex: 1 1 300px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .footer-section p {
+            color: #bdc3c7;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        /* Páginas de detalle */
+        .detail-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .detail-content {
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: #c0392b;
+            transform: rotate(90deg);
+        }
+        
+        .detail-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .detail-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--secondary), var(--success));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .detail-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .detail-text {
+            padding-right: 20px;
+        }
+        
+        .detail-text h3 {
+            color: var(--secondary);
+            margin: 25px 0 15px;
+            font-size: 1.5rem;
+        }
+        
+        .detail-text h3:first-child {
+            margin-top: 0;
+        }
+        
+        .detail-text p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .detail-text ul {
+            margin: 15px 0 15px 20px;
+        }
+        
+        .detail-text li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 10px;
+        }
+        
+        .detail-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .info-graphic {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-graphic h4 {
+            margin-bottom: 15px;
+            color: var(--warning);
+        }
+        
+        .graphic-placeholder {
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #bdc3c7;
+            font-style: italic;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--secondary);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+        
+        .timeline-year {
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 5px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .detail-body {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-text {
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-satellite-dish"></i>
+                    <h1>Teleproceso & Datos</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#inicio" class="active">Inicio</a></li>
+                        <li><a href="#teleproceso">Teleproceso</a></li>
+                        <li><a href="#conceptos">Conceptos</a></li>
+                        <li><a href="#transmision">Transmisión</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h2>Teleproceso y Transmisión de Datos</h2>
+            <p>Explora los fundamentos del procesamiento remoto y los diferentes métodos de transmisión de datos en sistemas informáticos modernos. Descubre cómo la información viaja a través de redes y sistemas distribuidos.</p>
+            <a href="#teleproceso" class="btn">Comenzar Exploración</a>
+        </div>
+    </section>
+
+    <section id="teleproceso">
+        <div class="container">
+            <div class="section-title">
+                <h2>¿Qué es el Teleproceso?</h2>
+            </div>
+            <div class="cards">
+                <div class="card" onclick="openDetail('definicion')">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>Definición</h3>
+                    <p>El teleproceso se refiere al procesamiento de datos a distancia, donde los terminales se conectan a un computador central a través de líneas de comunicación.</p>
+                    <p class="btn-link">Haz clic para más información →</p>
+                </div>
+                <div class="card" onclick="openDetail('evolucion')">
+                    <i class="fas fa-history"></i>
+                    <h3>Evolución</h3>
+                    <p>Desde los sistemas batch hasta los sistemas en tiempo real, el teleproceso ha evolucionado para satisfacer las necesidades de procesamiento remoto.</p>
+                    <p class="btn-link">Haz clic para más información →</p>
+                </div>
+                <div class="card" onclick="openDetail('aplicaciones')">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>Aplicaciones</h3>
+                    <p>Se utiliza en reservaciones de aerolíneas, sistemas bancarios, control de inventarios y cualquier sistema que requiera procesamiento centralizado con acceso remoto.</p>
+                    <p class="btn-link">Haz clic para más información →</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="concepts" id="conceptos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Conceptos Clave del Teleproceso</h2>
+            </div>
+            <div class="concept-list">
+                <div class="concept-item">
+                    <h3><i class="fas fa-terminal"></i> Terminal</h3>
+                    <p>Dispositivo que permite a los usuarios interactuar con el sistema central desde ubicaciones remotas.</p>
+                </div>
+                <div class="concept-item">
+                    <h3><i class="fas fa-server"></i> Computador Central</h3>
+                    <p>Sistema que realiza el procesamiento de datos y al que se conectan las terminales remotas.</p>
+                </div>
+                <div class="concept-item">
+                    <h3><i class="fas fa-broadcast-tower"></i> Líneas de Comunicación</h3>
+                    <p>Medios físicos o inalámbricos que permiten la transmisión de datos entre terminales y el computador central.</p>
+                </div>
+                <div class="concept-item">
+                    <h3><i class="fas fa-microchip"></i> Front-End</h3>
+                    <p>Computador especializado que maneja las comunicaciones, liberando al computador central de estas tareas.</p>
+                </div>
+                <div class="concept-item">
+                    <h3><i class="fas fa-exchange-alt"></i> Módem</h3>
+                    <p>Dispositivo que modula y demodula señales para permitir la transmisión de datos a través de líneas telefónicas.</p>
+                </div>
+                <div class="concept-item">
+                    <h3><i class="fas fa-clock"></i> Tiempo Real</h3>
+                    <p>Sistemas que procesan transacciones inmediatamente, proporcionando respuestas en segundos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="transmision">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tipos de Transmisión de Datos</h2>
+            </div>
+            <div class="transmission-types">
+                <div class="type-card">
+                    <div class="type-header">
+                        <h3>Transmisión Síncrona</h3>
+                    </div>
+                    <div class="type-body">
+                        <p>Los datos se transmiten en bloques continuos con una señal de reloj que sincroniza emisor y receptor.</p>
+                        <ul>
+                            <li>Mayor eficiencia para grandes volúmenes de datos</li>
+                            <li>Requiere sincronización precisa</li>
+                            <li>Menos overhead que la transmisión asíncrona</li>
+                            <li>Utilizada en conexiones de alta velocidad</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="type-card">
+                    <div class="type-header">
+                        <h3>Transmisión Asíncrona</h3>
+                    </div>
+                    <div class="type-body">
+                        <p>Cada carácter se transmite de forma independiente con bits de inicio y parada.</p>
+                        <ul>
+                            <li>Ideal para transmisiones irregulares</li>
+                            <li>Más simple de implementar</li>
+                            <li>Mayor overhead por los bits de control</li>
+                            <li>Común en comunicaciones serie</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="type-card">
+                    <div class="type-header">
+                        <h3>Transmisión Serie</h3>
+                    </div>
+                    <div class="type-body">
+                        <p>Los bits se envían uno tras otro a través de un único canal.</p>
+                        <ul>
+                            <li>Económica para largas distancias</li>
+                            <li>Menos cables necesarios</li>
+                            <li>Más lenta que la transmisión paralela</li>
+                            <li>USB, SATA, Ethernet</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="type-card">
+                    <div class="type-header">
+                        <h3>Transmisión Paralela</h3>
+                    </div>
+                    <div class="type-body">
+                        <p>Múltiples bits se envían simultáneamente a través de varios canales.</p>
+                        <ul>
+                            <li>Alta velocidad de transferencia</li>
+                            <li>Ideal para distancias cortas</li>
+                            <li>Requiere múltiples líneas de transmisión</li>
+                            <li>Puertos paralelos, buses de memoria</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="visualization">
+        <div class="container">
+            <div class="section-title">
+                <h2>Visualización de Teleproceso</h2>
+            </div>
+            <div class="visual-container">
+                <div class="node">Terminal</div>
+                <div class="connection"></div>
+                <div class="node">Módem</div>
+                <div class="connection"></div>
+                <div class="node">Front-End</div>
+                <div class="connection"></div>
+                <div class="node">Computador Central</div>
+            </div>
+            <p style="margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Esta visualización representa el flujo típico en un sistema de teleproceso, desde la terminal del usuario hasta el computador central, pasando por los dispositivos de comunicación necesarios.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Teleproceso y Transmisión de Datos</h3>
+                    <p>Una exploración educativa sobre los fundamentos del procesamiento remoto y la transmisión de datos en sistemas informáticos.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul style="list-style: none; color: #bdc3c7;">
+                        <li><a href="#inicio" style="color: #bdc3c7; text-decoration: none;">Inicio</a></li>
+                        <li><a href="#teleproceso" style="color: #bdc3c7; text-decoration: none;">Teleproceso</a></li>
+                        <li><a href="#conceptos" style="color: #bdc3c7; text-decoration: none;">Conceptos</a></li>
+                        <li><a href="#transmision" style="color: #bdc3c7; text-decoration: none;">Transmisión</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>¿Preguntas o comentarios? ¡Nos encantaría escucharte!</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Teleproceso y Transmisión de Datos. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Páginas de detalle -->
+    <div id="definicion" class="detail-page">
+        <div class="detail-content">
+            <button class="close-btn" onclick="closeDetail('definicion')">&times;</button>
+            <div class="detail-header">
+                <h2>Definición de Teleproceso</h2>
+                <p>Concepto fundamental en sistemas distribuidos</p>
+            </div>
+            <div class="detail-body">
+                <div class="detail-text">
+                    <h3>¿Qué es el Teleproceso?</h3>
+                    <p>El teleproceso es una técnica que permite el procesamiento de datos a distancia, donde terminales remotas se conectan a un computador central mediante líneas de comunicación. Este sistema permite que usuarios en ubicaciones geográficamente dispersas accedan y utilicen los recursos de un sistema centralizado.</p>
+                    
+                    <h3>Características Principales</h3>
+                    <ul>
+                        <li><strong>Procesamiento centralizado:</strong> Todos los datos se procesan en un computador principal</li>
+                        <li><strong>Acceso remoto:</strong> Los usuarios interactúan desde terminales distantes</li>
+                        <li><strong>Tiempo compartido:</strong> Múltiples usuarios pueden acceder simultáneamente</li>
+                        <li><strong>Comunicación bidireccional:</strong> Flujo de datos en ambos sentidos</li>
+                    </ul>
+                    
+                    <h3>Componentes del Sistema</h3>
+                    <p>Un sistema de teleproceso está compuesto por:</p>
+                    <ul>
+                        <li>Terminales remotas</li>
+                        <li>Líneas de comunicación</li>
+                        <li>Módems</li>
+                        <li>Computador central</li>
+                        <li>Software de aplicación</li>
+                    </ul>
+                </div>
+                <div class="detail-visual">
+                    <div class="info-graphic">
+                        <h4>Arquitectura de Teleproceso</h4>
+                        <div class="graphic-placeholder">
+                            <i class="fas fa-project-diagram" style="font-size: 3rem; color: #3498db;"></i>
+                        </div>
+                        <p>Representación de la conexión entre terminales y computador central</p>
+                    </div>
+                    <div class="info-graphic">
+                        <h4>Ventajas del Teleproceso</h4>
+                        <div class="graphic-placeholder">
+                            <i class="fas fa-chart-line" style="font-size: 3rem; color: #2ecc71;"></i>
+                        </div>
+                        <p>Centralización, eficiencia y acceso remoto a información</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="evolucion" class="detail-page">
+        <div class="detail-content">
+            <button class="close-btn" onclick="closeDetail('evolucion')">&times;</button>
+            <div class="detail-header">
+                <h2>Evolución del Teleproceso</h2>
+                <p>Desde sistemas batch hasta la nube</p>
+            </div>
+            <div class="detail-body">
+                <div class="detail-text">
+                    <h3>Línea de Tiempo Histórica</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">1960s</div>
+                            <p><strong>Sistemas Batch:</strong> Procesamiento por lotes, sin interacción en tiempo real</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1970s</div>
+                            <p><strong>Primeros sistemas de teleproceso:</strong> Terminales conectadas a mainframes</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1980s</div>
+                            <p><strong>Computación cliente-servidor:</strong> Distribución de procesamiento</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">1990s</div>
+                            <p><strong>Internet y web:</strong> Acceso global a sistemas remotos</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2000s</div>
+                            <p><strong>Computación en la nube:</strong> Servicios bajo demanda a través de Internet</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Cambios Tecnológicos</h3>
+                    <p>La evolución del teleproceso ha estado marcada por importantes avances tecnológicos:</p>
+                    <ul>
+                        <li><strong>Velocidad de transmisión:</strong> De 300 bps a varios Gbps</li>
+                        <li><strong>Medios de comunicación:</strong> De líneas telefónicas a fibra óptica y wireless</li>
+                        <li><strong>Capacidad de procesamiento:</strong> De mainframes a arquitecturas distribuidas</li>
+                        <li><strong>Interfaz de usuario:</strong> De terminales de texto a aplicaciones web ricas</li>
+                    </ul>
+                </div>
+                <div class="detail-visual">
+                    <div class="info-graphic">
+                        <h4>Evolución Tecnológica</h4>
+                        <div class="graphic-placeholder">
+                            <i class="fas fa-laptop-code" style="font-size: 3rem; color: #f39c12;"></i>
+                        </div>
+                        <p>De terminales simples a sistemas en la nube</p>
+                    </div>
+                    <div class="info-graphic">
+                        <h4>Impacto en la Sociedad</h4>
+                        <div class="graphic-placeholder">
+                            <i class="fas fa-users" style="font-size: 3rem; color: #9b59b6;"></i>
+                        </div>
+                        <p>Transformación en negocios, educación y comunicación</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="aplicaciones" class="detail-page">
+        <div class="detail-content">
+            <button class="close-btn" onclick="closeDetail('aplicaciones')">&times;</button>
+            <div class="detail-header">
+                <h2>Aplicaciones del Teleproceso</h2>
+                <p>Usos en la vida real y sectores industriales</p>
+            </div>
+            <div class="detail-body">
+                <div class="detail-text">
+                    <h3>Sistemas de Reservaciones</h3>
+                    <p>Las aerolíneas fueron de los primeros en adoptar sistemas de teleproceso para gestionar reservas de vuelos, hoteles y alquiler de coches. Estos sistemas requieren:</p>
+                    <ul>
+                        <li>Acceso en tiempo real a bases de datos centralizadas</li>
+                        <li>Actualización inmediata de disponibilidad</li>
+                        <li>Transacciones seguras y confiables</li>
+                        <li>Interfaz amigable para agentes de viajes</li>
+                    </ul>
+                    
+                    <h3>Sistemas Bancarios</
